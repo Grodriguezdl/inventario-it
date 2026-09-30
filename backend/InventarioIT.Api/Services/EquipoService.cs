@@ -37,7 +37,7 @@ public class EquipoService(AppDbContext db) : IEquipoService
 
         var items = await query
             .OrderBy(e => e.CodigoInventario)
-            .Skip((filtro.Pagina - 1) * filtro.TamanoPagina)
+            .Skip(filtro.Omitir)
             .Take(filtro.TamanoPagina)
             .Select(EquipoResponse.Proyeccion)
             .ToListAsync(ct);

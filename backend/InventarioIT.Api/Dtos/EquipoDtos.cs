@@ -64,15 +64,9 @@ public class EquipoRequest
 }
 
 // Parámetros de búsqueda del listado
-public class EquipoFiltro
+public class EquipoFiltro : FiltroPaginado
 {
     public string? Busqueda { get; set; }
     public EstadoEquipo? Estado { get; set; }
     public int? CategoriaId { get; set; }
-
-    [Range(1, int.MaxValue)]
-    public int Pagina { get; set; } = 1;
-
-    [Range(1, 100, ErrorMessage = "El tamaño de página debe estar entre 1 y 100.")]
-    public int TamanoPagina { get; set; } = 10;
 }
