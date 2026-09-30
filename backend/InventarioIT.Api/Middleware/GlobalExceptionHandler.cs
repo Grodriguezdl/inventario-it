@@ -16,6 +16,7 @@ public class GlobalExceptionHandler(
             NotFoundException => (StatusCodes.Status404NotFound, "Recurso no encontrado"),
             ConflictException => (StatusCodes.Status409Conflict, "Conflicto"),
             ReglaNegocioException => (StatusCodes.Status400BadRequest, "Solicitud inválida"),
+            UnauthorizedException => (StatusCodes.Status401Unauthorized, "No autorizado"),
             _ => (StatusCodes.Status500InternalServerError, "Error interno del servidor")
         };
 

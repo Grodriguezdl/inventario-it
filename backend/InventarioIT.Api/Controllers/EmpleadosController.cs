@@ -1,6 +1,8 @@
 using InventarioIT.Api.Dtos;
 using InventarioIT.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using InventarioIT.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioIT.Api.Controllers;
 
@@ -35,6 +37,7 @@ public class EmpleadosController(IEmpleadoService service) : ControllerBase
         int id, EmpleadoRequest request, CancellationToken ct)
         => Ok(await service.ActualizarAsync(id, request, ct));
 
+        [Authorize(Roles = nameof(RolUsuario.Admin))]
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,6 +48,7 @@ public class EmpleadosController(IEmpleadoService service) : ControllerBase
         return NoContent();
     }
 
+        [Authorize(Roles = nameof(RolUsuario.Admin))]
     [HttpPost("{id:int}/activar")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
