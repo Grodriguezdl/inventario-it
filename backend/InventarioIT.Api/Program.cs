@@ -21,7 +21,8 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddScoped<IEquipoService, EquipoService>();
-
+builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 var app = builder.Build();
 
 app.UseExceptionHandler();
