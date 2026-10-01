@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend - compilar y probar
+    runs-on: ubuntu-latest
+
+    # PostgreSQL temporal solo para las pruebas; se destruye al terminar
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      ConnectionStrings__Tests: Host=localhost;Port=5432;Database=inventario_it_tests;Username=postgres;Password=postgres
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restaurar paquetes
+        run: dotnet restore
+
+      - name: Compilar
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Ejecutar pruebas
+        run: dotnet test --no-build --configuration Release --verbosity normal
