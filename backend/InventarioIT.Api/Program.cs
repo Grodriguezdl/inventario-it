@@ -22,7 +22,7 @@ var jwt = jwtSection.Get<JwtOptions>() ?? new JwtOptions();
 if (Encoding.UTF8.GetByteCount(jwt.Key) < 32)
 {
     throw new InvalidOperationException(
-        "Jwt:Key debe tener al menos 32 caracteres. Configúrala con dotnet user-secrets.");
+        "Jwt:Key debe tener al menos 32 caracteres. Configúrala con dotnet user-secrets o una variable de entorno.");
 }
 
 builder.Services.Configure<JwtOptions>(jwtSection);
@@ -40,13 +40,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddHealthChecks();
 
 // ---------- Autenticación y autorización ----------
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.MapInboundClaims = false; // conserva los nombres cortos: sub, name, role
+        options.MapInboundClaims = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -62,7 +63,6 @@ builder.Services
         };
     });
 
-// Por defecto, todo endpoint requiere estar autenticado (salvo los marcados con AllowAnonymous)
 builder.Services.AddAuthorizationBuilder()
     .SetFallbackPolicy(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
 
@@ -80,11 +80,20 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 var app = builder.Build();
 
+// En producción, aplicamos las migraciones pendientes al arrancar
+if (app.Configuration.GetValue<bool>("AplicarMigracionesAlIniciar"))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
+
 await DataSeeder.CrearAdminInicialAsync(app.Services);
 
 app.UseExceptionHandler();
 
-if (app.Environment.IsDevelopment())
+// La documentación se muestra en desarrollo, o en producción si se habilita explícitamente
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("HabilitarDocumentacion"))
 {
     app.MapOpenApi().AllowAnonymous();
     app.MapScalarApiReference().AllowAnonymous();
@@ -93,6 +102,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHealthChecks("/health").AllowAnonymous();
 app.MapControllers();
 
 app.Run();
