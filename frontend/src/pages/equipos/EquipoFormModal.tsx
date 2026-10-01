@@ -1,24 +1,17 @@
-import { useState, type FormEvent, type ReactNode } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ApiError } from '../../api/client'
 import { categoriasApi, equiposApi } from '../../api/equipos'
 import type { Equipo, EquipoRequest } from '../../api/types'
 import { useNotificar } from '../../components/Notificaciones'
+import { Campo } from '../../components/ui/Campo'
+import { ErrorFormulario } from '../../components/ui/ErrorFormulario'
 import { Modal } from '../../components/ui/Modal'
 import { claseBotonPrimario, claseBotonSecundario, claseInput } from '../../components/ui/estilos'
 
 interface EquipoFormModalProps {
   equipo: Equipo | null // null = crear uno nuevo
   onCerrar: () => void
-}
-
-function Campo({ etiqueta, children }: { etiqueta: string; children: ReactNode }) {
-  return (
-    <label className="block">
-      <span className="text-sm font-medium text-slate-700">{etiqueta}</span>
-      <div className="mt-1">{children}</div>
-    </label>
-  )
 }
 
 export function EquipoFormModal({ equipo, onCerrar }: EquipoFormModalProps) {
@@ -78,25 +71,10 @@ export function EquipoFormModal({ equipo, onCerrar }: EquipoFormModalProps) {
     })
   }
 
-  // Errores de validación por campo que devuelve la API (400)
-  const erroresCampos = error?.errores ? Object.values(error.errores).flat() : []
-
   return (
     <Modal titulo={equipo ? `Editar ${equipo.codigoInventario}` : 'Nuevo equipo'} onCerrar={onCerrar}>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {error && (
-          <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-            {erroresCampos.length > 0 ? (
-              <ul className="list-inside list-disc">
-                {erroresCampos.map((mensaje) => (
-                  <li key={mensaje}>{mensaje}</li>
-                ))}
-              </ul>
-            ) : (
-              error.message
-            )}
-          </div>
-        )}
+        <ErrorFormulario error={error} />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Campo etiqueta="Código de inventario *">
