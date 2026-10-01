@@ -9,6 +9,7 @@ import { Paginacion } from '../../components/ui/Paginacion'
 import { claseBotonPrimario, claseInput } from '../../components/ui/estilos'
 import { useDebounce } from '../../hooks/useDebounce'
 import { EmpleadoFormModal } from './EmpleadoFormModal'
+import { Link } from 'react-router'
 
 const claseAccion = 'text-sm font-medium hover:underline disabled:cursor-not-allowed disabled:opacity-40 disabled:no-underline'
 
@@ -153,6 +154,12 @@ export function EmpleadosPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-3">
+                                           <Link
+                        to={`/asignaciones?empleadoId=${empleado.id}`}
+                        className={`${claseAccion} text-slate-500`}
+                      >
+                        Historial
+                      </Link>
                       <button
                         onClick={() => setFormulario({ empleado })}
                         className={`${claseAccion} text-slate-700`}

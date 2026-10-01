@@ -106,3 +106,13 @@ export interface EmpleadoRequest {
   departamento: string
   puesto: string
 }
+export interface AsignarRequest {
+  equipoId: number
+  empleadoId: number
+  observaciones: string | null
+}
+
+export interface DevolucionRequest {
+  estadoEquipo: 'Disponible' | 'EnReparacion'
+  observaciones: string | null
+}

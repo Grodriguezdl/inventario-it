@@ -10,6 +10,7 @@ import { Paginacion } from '../../components/ui/Paginacion'
 import { claseBotonPrimario, claseInput } from '../../components/ui/estilos'
 import { useDebounce } from '../../hooks/useDebounce'
 import { EquipoFormModal } from './EquipoFormModal'
+import { Link } from 'react-router'
 
 const claseAccion = 'text-sm font-medium hover:underline disabled:opacity-50'
 
@@ -162,6 +163,12 @@ export function EquiposPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-3">
+                                            <Link
+                        to={`/asignaciones?equipoId=${equipo.id}`}
+                        className={`${claseAccion} text-slate-500`}
+                      >
+                        Historial
+                      </Link>
                       {equipo.estado !== 'DeBaja' && (
                         <button
                           onClick={() => setFormulario({ equipo })}
