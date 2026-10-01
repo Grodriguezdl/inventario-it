@@ -47,4 +47,10 @@ public class EquiposController(IEquipoService service) : ControllerBase
         await service.DarDeBajaAsync(id, ct);
         return NoContent();
     }
+        [HttpPatch("{id:int}/estado")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<EquipoResponse>> CambiarEstado(
+        int id, CambiarEstadoRequest request, CancellationToken ct)
+        => Ok(await service.CambiarEstadoAsync(id, request.Estado!.Value, ct));
 }

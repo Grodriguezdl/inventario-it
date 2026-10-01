@@ -27,4 +27,5 @@ public class UsuariosController(IUsuarioService service) : ControllerBase
         var usuario = await service.CrearAsync(request, ct);
         return CreatedAtAction(nameof(Obtener), new { id = usuario.Id }, usuario);
     }
+    
 }
