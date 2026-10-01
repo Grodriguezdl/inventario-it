@@ -125,7 +125,33 @@ public class EquipoService(AppDbContext db) : IEquipoService
 
         await db.SaveChangesAsync(ct);
     }
+    public async Task<EquipoResponse> CambiarEstadoAsync(int id, EstadoEquipo nuevoEstado, CancellationToken ct)
+    {
+        var equipo = await db.Equipos.FindAsync([id], ct)
+            ?? throw new NotFoundException($"No existe un equipo con Id {id}.");
 
+        if (equipo.Estado == nuevoEstado)
+        {
+            return await ObtenerAsync(id, ct);
+        }
+
+        var permitido = (equipo.Estado, nuevoEstado) is
+            (EstadoEquipo.Disponible, EstadoEquipo.EnReparacion) or
+            (EstadoEquipo.EnReparacion, EstadoEquipo.Disponible);
+
+        if (!permitido)
+        {
+            throw new ConflictException(
+                $"No se puede cambiar el estado de {equipo.Estado} a {nuevoEstado}. " +
+                "Usa los endpoints de asignaciones o de baja para esos cambios.");
+        }
+
+        equipo.Estado = nuevoEstado;
+        equipo.ActualizadoEn = DateTime.UtcNow;
+        await db.SaveChangesAsync(ct);
+
+        return await ObtenerAsync(id, ct);
+    }
     private static string NormalizarCodigo(string codigo) => codigo.Trim().ToUpperInvariant();
 
     private async Task ValidarCodigoUnicoAsync(string codigo, int? idActual, CancellationToken ct)

@@ -70,3 +70,8 @@ public class EquipoFiltro : FiltroPaginado
     public EstadoEquipo? Estado { get; set; }
     public int? CategoriaId { get; set; }
 }
+public class CambiarEstadoRequest
+{
+    [Required(ErrorMessage = "Debe indicar el nuevo estado.")]
+    public EstadoEquipo? Estado { get; set; }
+}

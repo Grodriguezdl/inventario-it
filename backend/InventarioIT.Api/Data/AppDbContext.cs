@@ -72,6 +72,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
              .WithMany()
              .HasForeignKey(a => a.AsignadoPorId)
              .OnDelete(DeleteBehavior.Restrict);
+                        // Un equipo solo puede tener UNA asignación activa (sin devolución)
+            e.HasIndex(a => a.EquipoId)
+             .IsUnique()
+             .HasFilter("\"FechaDevolucion\" IS NULL")
+             .HasDatabaseName("IX_Asignaciones_EquipoActivo");
+             
         });
     }
 }
