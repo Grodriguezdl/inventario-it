@@ -6,7 +6,7 @@ Sistema web para la **gestión de activos de IT**: registro de equipos, asignaci
 
 > *Full-stack IT asset management system: equipment tracking, employee assignments, returns, repairs and full history. Built with ASP.NET Core 10, PostgreSQL and React + TypeScript, featuring role-based authentication, automated tests and continuous deployment.*
 
-## 🔗 Demo en vivo
+##  Demo en vivo
 
 | | |
 |---|---|
@@ -15,9 +15,9 @@ Sistema web para la **gestión de activos de IT**: registro de equipos, asignaci
 | **Usuario de demo** | `demo@inventario-it.dev` |
 | **Contraseña** | `Demo2026` |
 
-> ⏳ La API está en un plan gratuito que se suspende tras unos minutos sin uso. Si la primera carga tarda cerca de un minuto, es el servidor despertando; después responde con normalidad.
+>  La API está en un plan gratuito que se suspende tras unos minutos sin uso. Si la primera carga tarda cerca de un minuto, es el servidor despertando; después responde con normalidad.
 
-## 📸 Capturas
+##  Capturas
 
 | Dashboard | Equipos |
 |---|---|
@@ -27,7 +27,7 @@ Sistema web para la **gestión de activos de IT**: registro de equipos, asignaci
 |---|---|
 | ![Asignaciones](docs/capturas/asignaciones.png) | ![API](docs/capturas/api.png) |
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
 **Equipos**
 - Registro con código de inventario único, número de serie, marca, modelo, categoría y fecha de adquisición.
@@ -52,7 +52,7 @@ Sistema web para la **gestión de activos de IT**: registro de equipos, asignaci
 - Inicio de sesión con JWT y contraseñas almacenadas con hash.
 - Roles **Administrador** y **Técnico**: las acciones críticas (bajas, gestión de usuarios) son exclusivas del administrador.
 
-## 🏗️ Arquitectura
+## Arquitectura
 
 ```mermaid
 flowchart LR
@@ -66,7 +66,7 @@ flowchart LR
 
 El backend está organizado en capas: los **controladores** solo reciben y responden peticiones HTTP, los **servicios** contienen las reglas de negocio y **Entity Framework Core** se encarga del acceso a datos. Los **DTOs** separan lo que expone la API de las entidades de la base de datos.
 
-## 🛠️ Tecnologías
+##  Tecnologías
 
 | Capa | Tecnologías |
 |---|---|
@@ -77,7 +77,7 @@ El backend está organizado en capas: los **controladores** solo reciben y respo
 | **DevOps** | Docker (multi-stage), GitHub Actions, Render, Vercel, Neon |
 | **Documentación** | OpenAPI + Scalar |
 
-## 🧠 Decisiones técnicas
+##  Decisiones técnicas
 
 - **Usuarios y empleados son entidades distintas.** Los usuarios operan el sistema e inician sesión; los empleados solo reciben equipos. Así un empleado no necesita cuenta ni contraseña.
 - **Nunca se borran registros con historial.** Equipos y empleados se dan de baja o se desactivan, y las relaciones usan borrado restringido. El historial de asignaciones queda siempre completo.
@@ -88,7 +88,7 @@ El backend está organizado en capas: los **controladores** solo reciben y respo
 - **Pruebas contra PostgreSQL real.** Parte de la lógica depende de características de PostgreSQL (búsqueda sin distinguir mayúsculas, índices filtrados), por lo que las pruebas usan una base real creada con las mismas migraciones de producción.
 - **Sin configuración de CORS.** El frontend siempre llama a `/api`: en desarrollo lo redirige el proxy de Vite y en producción las reglas de Vercel, de modo que el navegador ve un único origen.
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 ```
 inventario-it/
@@ -107,7 +107,7 @@ inventario-it/
 └── .github/workflows/ci.yml     # Integración continua
 ```
 
-## 🚀 Ejecutar en local
+##  Ejecutar en local
 
 **Requisitos:** .NET SDK 10, Node.js 22 y PostgreSQL.
 
@@ -143,7 +143,7 @@ La aplicación queda en `http://localhost:5173`.
 bash scripts/cargar-demo.sh http://localhost:5117
 ```
 
-## 🧪 Pruebas
+##  Pruebas
 
 El proyecto incluye **26 pruebas de integración** que cubren las reglas de negocio: códigos y correos duplicados, transiciones de estado, asignaciones, devoluciones, autenticación y la restricción de unicidad en la base de datos.
 
@@ -155,7 +155,7 @@ dotnet test
 
 En cada Pull Request, **GitHub Actions** compila el backend y el frontend y ejecuta las pruebas contra un PostgreSQL temporal. La rama `main` está protegida: solo acepta cambios que pasen todas las verificaciones, y cada merge despliega automáticamente la API y el frontend.
 
-## 🔮 Mejoras futuras
+##  Mejoras futuras
 
 - Carga diferida de páginas (*lazy loading*) para reducir el tamaño inicial del frontend.
 - Exportación de reportes de inventario y asignaciones a Excel o PDF.
@@ -163,7 +163,7 @@ En cada Pull Request, **GitHub Actions** compila el backend y el frontend y ejec
 - Gestión de usuarios desde la interfaz y cambio de contraseña.
 - Pruebas de extremo a extremo del frontend.
 
-## 👤 Autor
+##  Autor
 
 **Gabriel Rodríguez**
 [GitHub](https://github.com/Grodriguezdl) · [LinkedIn](https://www.linkedin.com/in/gabriel-rodriguez-90135936b)
