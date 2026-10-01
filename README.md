@@ -1,4 +1,4 @@
-# Inventario IT 🖥️
+# Inventario IT 
 
 [![CI](https://github.com/Grodriguezdl/inventario-it/actions/workflows/ci.yml/badge.svg)](https://github.com/Grodriguezdl/inventario-it/actions/workflows/ci.yml)
 
