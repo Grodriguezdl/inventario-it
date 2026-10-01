@@ -49,3 +49,42 @@ export interface ProblemDetails {
   status?: number
   errors?: Record<string, string[]>
 }
+export interface PaginaResultado<T> {
+  items: T[]
+  pagina: number
+  tamanoPagina: number
+  totalRegistros: number
+  totalPaginas: number
+}
+
+export interface Categoria {
+  id: number
+  nombre: string
+  descripcion: string | null
+  totalEquipos: number
+}
+
+export interface Equipo {
+  id: number
+  codigoInventario: string
+  numeroSerie: string | null
+  marca: string
+  modelo: string
+  estado: EstadoEquipo
+  categoriaId: number
+  categoria: string
+  fechaAdquisicion: string | null
+  notas: string | null
+  creadoEn: string
+  actualizadoEn: string
+}
+
+export interface EquipoRequest {
+  codigoInventario: string
+  numeroSerie: string | null
+  marca: string
+  modelo: string
+  categoriaId: number
+  fechaAdquisicion: string | null
+  notas: string | null
+}

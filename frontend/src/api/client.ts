@@ -70,3 +70,13 @@ export const api = {
   patch: <T>(ruta: string, cuerpo?: unknown) => request<T>('PATCH', ruta, cuerpo),
   delete: <T = void>(ruta: string) => request<T>('DELETE', ruta),
 }
+// Convierte un objeto en query string, omitiendo los valores vacíos
+export function construirQuery(params: Record<string, string | number | null | undefined>) {
+  const query = new URLSearchParams()
+  for (const [clave, valor] of Object.entries(params)) {
+    if (valor !== undefined && valor !== null && valor !== '') {
+      query.set(clave, String(valor))
+    }
+  }
+  return query.toString()
+}
