@@ -88,3 +88,21 @@ export interface EquipoRequest {
   fechaAdquisicion: string | null
   notas: string | null
 }
+export interface Empleado {
+  id: number
+  nombre: string
+  apellido: string
+  email: string
+  departamento: string
+  puesto: string
+  activo: boolean
+  equiposAsignados: number
+}
+
+export interface EmpleadoRequest {
+  nombre: string
+  apellido: string
+  email: string
+  departamento: string
+  puesto: string
+}

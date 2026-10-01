@@ -5,6 +5,7 @@ import { DashboardPage } from './pages/DashboardPage'
 import { LoginPage } from './pages/LoginPage'
 import { ProximamentePage } from './pages/ProximamentePage'
 import { EquiposPage } from './pages/equipos/EquiposPage'
+import { EmpleadosPage } from './pages/empleados/EmpleadosPage'
 
 export default function App() {
   return (
@@ -15,7 +16,8 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Layout />}>
           <Route index element={<DashboardPage />} />
-          <Route path="equipos" element={<EquiposPage />} />          <Route path="empleados" element={<ProximamentePage titulo="Empleados" />} />
+          <Route path="equipos" element={<EquiposPage />} />          
+          <Route path="empleados" element={<EmpleadosPage />} />
           <Route path="asignaciones" element={<ProximamentePage titulo="Asignaciones" />} />
         </Route>
       </Route>
